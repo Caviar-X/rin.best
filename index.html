@@ -25,14 +25,7 @@
      <video id="videoElement" controls autoplay width="1000" height="576"></video>   
     </div>
     <div class="container">
-        <a class="waves-effect waves-light btn" onclick="setChannel()">切换频道</a>
-        <div class="input-field inline">
-        <input value="rin" name="channel" type="text" class="validate">
-        <label for="channel">频道</label>
-    </div>
-    <div class="container">
         <div id="field"></div>
-    </div>
 </body>
 
 
@@ -40,6 +33,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 <script src="http://kagamine.xyz/flv.min.js"></script>
 <script>
+    function out(n) {
+        let clone = n;
+        for (let index = 0; index < n.length; index++) {
+            if(n[index-1] == '/') {
+                break;
+            }
+            clone = clone.replace(n[index],"");
+        }
+        return clone;
+    }
     var field = document.getElementById("field");
     $.ajax({
         url: "https://rin.kagamine.xyz:16383/list",
@@ -47,26 +50,16 @@
         success: function (res) {
             if (res.length === 0) {
                 Materialize.toast('目前没有喵喵正在直播', 4000);
+                return;
             } else {
+                
                 var end;
                 res.forEach(element => {
-                    end += `<tr><td>${element}</td></tr>`;
+                    end += `<tr><td><a onclick='setChannel("${out(element)}")'>${element}</a></td></tr>`;
                 });
-                field.innerHTML =
-                    `
-        <table class="bordered">
-        <thead>
-          <tr>
-              <th data-field="id">直播中的喵喵</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          ${end}
-        </tbody>
-      </table>
-                `;
+                field.innerHTML = `<table class="bordered"><thead><tr><th data-field="id">直播中的小可爱</th></tr></thead><tbody>${end}</tbody></table>`;
             }
+            field.innerHTML = field.innerHTML.replace("undefined","");
         },
         error: function (err) {
             Materialize.toast(`遇到错误啦>_< ${err}`, 2000);
