@@ -25,6 +25,7 @@
         <video id="videoElement" controls autoplay width="1000" height="576"></video>
     </div>
     <div class="container">
+        <a class="waves-effect waves-light btn" onclick="write_div()"><i class="material-icons">replay</i></a>
         <div id="field"></div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -46,7 +47,7 @@
                     res.forEach(element => {
                         end += `<tr><td><a onclick='setChannel("${element}")'>${element}</a></td></tr>`;
                     });
-                    field.innerHTML = `<table class="bordered"><thead><tr><th data-field="id">直播中的小可爱</th><a class="waves-effect waves-light btn" onclick="write_div()"><i class="material-icons">replay</i></a></tr></thead><tbody>${end}</tbody></table>`;
+                    field.innerHTML = `<table class="bordered"><thead><tr><th data-field="id">直播中的小可爱</th></tr></thead><tbody>${end}</tbody></table>`;
                     Materialize.toast("获取成功",3000);
                 }
             },
