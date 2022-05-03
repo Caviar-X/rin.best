@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,25 +32,29 @@
 <script src="http://kagamine.xyz/flv.min.js"></script>
 <script>
     var field = document.getElementById("field");
-    $.ajax({
-        url: "https://rin.kagamine.xyz:16383/list",
-        type: "get",
-        success: function (res) {
-            if (res.length === 0) {
-                Materialize.toast('目前没有喵喵正在直播', 4000);
-                return;
-            } else {
-                var end = "";
-                res.forEach(element => {
-                    end += `<tr><td><a onclick='setChannel("${element}")'>${element}</a></td></tr>`;
-                });
-                field.innerHTML = `<table class="bordered"><thead><tr><th data-field="id">直播中的小可爱</th><a class="waves-effect waves-light btn" onclick="location.reload()"><i class="material-icons">replay</i></a></tr></thead><tbody>${end}</tbody></table>`;
+    function write_div() {
+        field.innerHTML = "";
+        $.ajax({
+            url: "https://rin.kagamine.xyz:16383/list",
+            type: "get",
+            success: function (res) {
+                if (res.length === 0) {
+                    Materialize.toast('目前没有喵喵正在直播', 4000);
+                    return;
+                } else {
+                    var end = "";
+                    res.forEach(element => {
+                        end += `<tr><td><a onclick='setChannel("${element}")'>${element}</a></td></tr>`;
+                    });
+                    field.innerHTML = `<table class="bordered"><thead><tr><th data-field="id">直播中的小可爱</th><a class="waves-effect waves-light btn" onclick="write_div()"><i class="material-icons">replay</i></a></tr></thead><tbody>${end}</tbody></table>`;
+                }
+            },
+            error: function (err) {
+                Materialize.toast(`遇到错误啦>_< ${err}`, 2000);
             }
-        },
-        error: function (err) {
-            Materialize.toast(`遇到错误啦>_< ${err}`, 2000);
-        }
-    });
+        });
+        Materialize.toast("获取成功",3000);
+    }
     var flvPlayer = null;
     function setChannel(str) {
         if (flvPlayer) {
@@ -69,6 +74,7 @@
             flvPlayer.play();
         }
     }
+    write_div();
     setChannel('rin');
 </script>
 
