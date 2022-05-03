@@ -47,13 +47,13 @@
                         end += `<tr><td><a onclick='setChannel("${element}")'>${element}</a></td></tr>`;
                     });
                     field.innerHTML = `<table class="bordered"><thead><tr><th data-field="id">直播中的小可爱</th><a class="waves-effect waves-light btn" onclick="write_div()"><i class="material-icons">replay</i></a></tr></thead><tbody>${end}</tbody></table>`;
+                    Materialize.toast("获取成功",3000);
                 }
             },
             error: function (err) {
                 Materialize.toast(`遇到错误啦>_< ${err}`, 2000);
             }
         });
-        Materialize.toast("获取成功",3000);
     }
     var flvPlayer = null;
     function setChannel(str) {
